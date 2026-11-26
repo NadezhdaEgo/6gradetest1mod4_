@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worksheet: Present Simple & Adjectives</title>
+<style>
+  :root {
+    --bg: #f4f7f6;
+    --text: #1e293b;
+    --card: #ffffff;
+    --primary: #4f46e5;
+    --success: #10b981;
+    --error: #ef4444;
+    --border: #cbd5e1;
+    --highlight: #eef2ff;
+  }
+  [data-theme="dark"] {
+    --bg: #0f172a;
+    --text: #f8fafc;
+    --card: #1e293b;
+    --border: #334155;
+    --highlight: #1e1b4b;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    transition: background 0.3s, color 0.3s;
+  }
+  .container { max-width: 850px; width: 100%; }
+  
+  header {
+    background: var(--card);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    border-top: 6px solid var(--primary);
+    position: relative;
+    text-align: center;
+  }
+  h1 { margin: 0 0 10px; font-size: 24px; color: var(--primary); }
+  .theme-toggle {
+    position: absolute; top: 15px; right: 15px;
+    background: var(--border); border: none; padding: 6px 12px;
+    border-radius: 20px; cursor: pointer; font-size: 13px; color: var(--text);
+  }
+
+  /* Блок с данными ученика */
+  .student-info {
+    background: var(--card); padding: 20px; border-radius: 16px;
+    margin-bottom: 20px; border: 2px solid var(--success);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .student-info h2 { 
+    color: var(--success); margin-top: 0; font-size: 18px; 
+    display: flex; align-items: center; gap: 10px; 
+    border-bottom: 2px solid var(--border); padding-bottom: 10px;
+  }
+  .student-info .input-group { margin-bottom: 15px; }
+  .student-info .input-group:last-child { margin-bottom: 0; }
+  .student-info input {
+    width: 100%; padding: 12px 15px; border: 2px solid var(--border);
+    border-radius: 8px; font-size: 16px; font-family: inherit;
+    background: var(--bg); color: var(--text); box-sizing: border-box;
+  }
+  .student-info input:focus { outline: none; border-color: var(--success); }
+
+  .task {
+    background: var(--card);
+    padding: 25px; border-radius: 16px;
+    margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+  }
+  .task h2 {
+    font-size: 20px; color: var(--primary);
+    margin-top: 0; display: flex; align-items: center; gap: 10px;
+    border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px;
+  }
+  .task h2 span {
+    background: var(--primary); color: white;
+    width: 30px; height: 30px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+
+  .q-item {
+    margin-bottom: 15px;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  /* Инпуты и селекты */
+  input[type="text"], select {
+    padding: 8px 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="text"]:focus, select:focus { border-color: var(--primary); }
+  input[type="text"] { width: 130px; text-align: center; }
+  select { cursor: pointer; min-width: 100px; }
+
+  /* Состояния правильности */
+  .correct { border-color: var(--success) !important; background: #ecfdf5 !important; color: #065f46 !important; }
+  .wrong { border-color: var(--error) !important; background: #fef2f2 !important; color: #991b1b !important; }
+  [data-theme="dark"] .correct { background: #064e3b !important; color: #a7f3d0 !important; }
+  [data-theme="dark"] .wrong { background: #7f1d1d !important; color: #fecaca !important; }
+
+  /* Кнопки управления */
+  .controls { display: flex; gap: 15px; margin-top: 10px; }
+  .btn {
+    flex: 1; padding: 15px; border: none; border-radius: 12px;
+    font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s;
+  }
+  .check-btn {
+    background: var(--success); color: white;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); font-size: 18px;
+  }
+  .check-btn:hover { background: #059669; }
+  .check-btn:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
+  .reset-btn { background: var(--border); color: var(--text); flex: 0.4; }
+  .reset-btn:hover { background: #cbd5e1; }
+  [data-theme="dark"] .reset-btn:hover { background: #475569; }
+
+  .result-box {
+    display: none; text-align: center; padding: 20px;
+    border-radius: 12px; font-size: 22px; font-weight: bold; margin-top: 20px;
+    background: var(--highlight); border: 2px solid var(--primary);
+  }
+  .result-box.show { display: block; animation: fadeIn 0.4s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
+    <h1>📝 Worksheet: Grammar & Vocabulary</h1>
+    <p>Present Simple & Adjectives</p>
+  </header>
+
+  <!-- БЛОК ДЛЯ ВВОДА ДАННЫХ -->
+  <div class="student-info">
+    <h2><span>👤</span> Ваши данные</h2>
+    <div data-fs-success style="display: none; padding: 10px; background: #d1fae5; color: #065f46; border-radius: 8px; margin-bottom: 15px; font-weight: bold;"></div>
+    <div data-fs-error style="display: none; padding: 10px; background: #fee2e2; color: #991b1b; border-radius: 8px; margin-bottom: 15px; font-weight: bold;"></div>
+
+    <form id="my-form" action="https://formspree.io/f/moedpbkn" method="POST">
+      <div class="input-group">
+        <input type="text" name="name" placeholder="Ваше имя" required data-fs-field>
+      </div>
+      <div class="input-group">
+        <input type="text" name="class" placeholder="Ваш класс (например: 6Б)" required data-fs-field>
+      </div>
+      <input type="hidden" name="score" id="score-input" value="">
+      <input type="hidden" name="lesson_topic" value="Worksheet: Present Simple & Adjectives">
+    </form>
+  </div>
+
+  <!-- ЗАДАНИЕ 1: Present Simple (Affirmative) -->
+  <div class="task">
+    <h2><span>1</span> Put the verbs into the correct form. (3 points)</h2>
+    <div class="q-item">1. I (to listen) <input type="text" id="q1-1" placeholder="..."> to music every day.</div>
+    <div class="q-item">2. My mother always (to make) <input type="text" id="q1-2" placeholder="..."> breakfast.</div>
+    <div class="q-item">3. Sarah usually (to meet) <input type="text" id="q1-3" placeholder="..."> Maria at the tennis club.</div>
+  </div>
+
+  <!-- ЗАДАНИЕ 2: Present Simple (Do/Does) -->
+  <div class="task">
+    <h2><span>2</span> Fill in: do or does. (4 points)</h2>
+    <div class="q-item">1. <select id="q2-1"><option value="">...</option><option value="do">Do</option><option value="does">Does</option></select> the children go to bed very early?</div>
+    <div class="q-item">2. <select id="q2-2"><option value="">...</option><option value="do">Do</option><option value="does">Does</option></select> that girl come from South America?</div>
+    <div class="q-item">3. <select id="q2-3"><option value="">...</option><option value="do">Do</option><option value="does">Does</option></select> you know that Italian student?</div>
+    <div class="q-item">4. <select id="q2-4"><option value="">...</option><option value="do">Do</option><option value="does">Does</option></select> Miss Stewart prefer coffee or tea?</div>
+  </div>
+
+  <!-- ЗАДАНИЕ 3: Present Simple (Don't/Doesn't) -->
+  <div class="task">
+    <h2><span>3</span> Fill in: don't or doesn't. (3 points)</h2>
+    <div class="q-item">1. We <select id="q3-1"><option value="">...</option><option value="don't">don't</option><option value="doesn't">doesn't</option></select> listen to the radio every night.</div>
+    <div class="q-item">2. The boys <select id="q3-2"><option value="">...</option><option value="don't">don't</option><option value="doesn't">doesn't</option></select> study at the library every day.</div>
+    <div class="q-item">3. He <select id="q3-3"><option value="">...</option><option value="don't">don't</option><option value="doesn't">doesn't</option></select> always eat at that cafe.</div>
+  </div>
+
+  <!-- ЗАДАНИЕ 4: Adjectives (Positive/Negative) -->
+  <div class="task">
+    <h2><span>4</span> Positive or Negative? (5 points)</h2>
+    <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Выбери правильное значение: Positive (положительное) или Negative (отрицательное).</p>
+    
+    <div class="q-item">1. fantastic 
+      <select id="q5-1">
+        <option value="">...</option>
+        <option value="positive">Positive</option>
+        <option value="negative">Negative</option>
+      </select>
+    </div>
+    <div class="q-item">2. horrible 
+      <select id="q5-2">
+        <option value="">...</option>
+        <option value="positive">Positive</option>
+        <option value="negative">Negative</option>
+      </select>
+    </div>
+    <div class="q-item">3. great 
+      <select id="q5-3">
+        <option value="">...</option>
+        <option value="positive">Positive</option>
+        <option value="negative">Negative</option>
+      </select>
+    </div>
+    <div class="q-item">4. terrible 
+      <select id="q5-4">
+        <option value="">...</option>
+        <option value="positive">Positive</option>
+        <option value="negative">Negative</option>
+      </select>
+    </div>
+    <div class="q-item">5. wonderful 
+      <select id="q5-5">
+        <option value="">...</option>
+        <option value="positive">Positive</option>
+        <option value="negative">Negative</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn check-btn" id="finish-btn" onclick="finishAndSend()">Проверить и отправить учителю 🚀</button>
+    <button class="btn reset-btn" onclick="resetWorksheet()">Сброс 🔄</button>
+  </div>
+
+  <div class="result-box" id="result-box"></div>
+
+</div>
+
+<script>
+  function toggleTheme() {
+    document.body.hasAttribute('data-theme') ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'dark');
+  }
+
+  // Завершение, подсчет и отправка
+  function finishAndSend() {
+    const form = document.getElementById('my-form');
+    if (!form.reportValidity()) {
+      alert("Пожалуйста, заполните Ваше имя и класс в самом верху страницы!");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    let correctCount = 0;
+    const total = 15; // 3 + 4 + 3 + 5 = 15 баллов
+
+    // 1. Задание 1 (Ввод текста)
+    const ans1 = { 'q1-1': 'listen', 'q1-2': 'makes', 'q1-3': 'meets' };
+    for (let id in ans1) {
+      const el = document.getElementById(id);
+      if (el.value.trim().toLowerCase() === ans1[id]) { el.classList.add('correct'); correctCount++; }
+      else { el.classList.add('wrong'); }
+    }
+
+    // 2. Задание 2 (do/does)
+    const ans2 = { 'q2-1': 'do', 'q2-2': 'does', 'q2-3': 'do', 'q2-4': 'does' };
+    for (let id in ans2) {
+      const el = document.getElementById(id);
+      if (el.value === ans2[id]) { el.classList.add('correct'); correctCount++; }
+      else { el.classList.add('wrong'); }
+    }
+
+    // 3. Задание 3 (don't/doesn't)
+    const ans3 = { 'q3-1': "don't", 'q3-2': "don't", 'q3-3': "doesn't" };
+    for (let id in ans3) {
+      const el = document.getElementById(id);
+      if (el.value === ans3[id]) { el.classList.add('correct'); correctCount++; }
+      else { el.classList.add('wrong'); }
+    }
+
+    // 4. Задание 4 (Positive/Negative)
+    const ans5 = { 'q5-1': 'positive', 'q5-2': 'negative', 'q5-3': 'positive', 'q5-4': 'negative', 'q5-5': 'positive' };
+    for (let id in ans5) {
+      const el = document.getElementById(id);
+      if (el.value === ans5[id]) { el.classList.add('correct'); correctCount++; }
+      else { el.classList.add('wrong'); }
+    }
+
+    // Записываем баллы в скрытое поле формы
+    document.getElementById('score-input').value = `${correctCount} из ${total}`;
+
+    // Показываем результат ученику (ТОЛЬКО БАЛЛЫ)
+    const resultBox = document.getElementById('result-box');
+    resultBox.classList.add('show');
+    resultBox.innerHTML = `<h2>Твой результат: ${correctCount} из ${total} баллов</h2><p style="font-size: 16px; margin-top:10px;">Отправляем данные учителю...</p>`;
+    
+    // Блокируем кнопку
+    const btn = document.getElementById('finish-btn');
+    btn.textContent = "Данные отправлены! ✅";
+    btn.disabled = true;
+
+    // Отправляем форму через Formspree
+    form.requestSubmit();
+    
+    // Прокрутка к результату
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function resetWorksheet() {
+    // Сброс текстовых полей
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+      if (input.name !== 'name' && input.name !== 'class') { // Не стираем имя и класс
+        input.value = '';
+        input.classList.remove('correct', 'wrong');
+      }
+    });
+    
+    // Сброс селектов
+    document.querySelectorAll('select').forEach(select => {
+      select.value = '';
+      select.classList.remove('correct', 'wrong');
+    });
+
+    // Прячем результат и возвращаем кнопку
+    const resultBox = document.getElementById('result-box');
+    resultBox.classList.remove('show');
+    
+    const btn = document.getElementById('finish-btn');
+    btn.textContent = "Проверить и отправить учителю 🚀";
+    btn.disabled = false;
+    
+    // Прокрутка наверх
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Инициализация Formspree для AJAX-отправки
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#my-form', formId: 'moedpbkn' });
+</script>
+
+<!-- Подключение библиотеки Formspree -->
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>
